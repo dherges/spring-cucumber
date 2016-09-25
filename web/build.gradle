@@ -1,0 +1,26 @@
+buildscript {
+  dependencies {
+    classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+  compile 'org.springframework.boot:spring-boot-starter-web'
+
+  testCompile 'org.springframework.boot:spring-boot-starter-test'
+  testCompile 'info.cukes:cucumber-java8:1.+'
+  testCompile 'info.cukes:cucumber-junit:1.+'
+  testCompile 'info.cukes:cucumber-spring:1.+'
+  testCompile 'com.squareup.okhttp3:okhttp:3.+'
+}
+
+jar {
+  baseName = 'spring-boot'
+  version = '0.1.0'
+}
