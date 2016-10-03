@@ -21,24 +21,23 @@ import okhttp3.Response;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-public class BarSteps implements En {
-  private static final Logger LOGGER = LoggerFactory.getLogger(BarSteps.class);
+public class ClientSteps implements En {
+  private static final Logger LOGGER = LoggerFactory.getLogger(ClientSteps.class);
 
   @LocalServerPort
   private int serverPort;
 
   private Response response;
 
-  public BarSteps() {
-    When("step3", () -> {
-      LOGGER.info("Step #3 ... some event is happening");
+  public ClientSteps() {
 
+    When("client calls ([A-Z]{0,4}) (.*)", (String verb, String path) -> {
       try {
         response =  new OkHttpClient.Builder().build()
           .newCall(
             new Request.Builder()
-              .get()
-              .url("http://localhost:" + serverPort + "/hello")
+              .method(verb, null)
+              .url("http://localhost:" + serverPort + path)
               .build()
           )
           .execute();
@@ -47,12 +46,13 @@ public class BarSteps implements En {
       }
     });
 
-    Then("step4", () -> {
-      LOGGER.info("Step #4 ... some assertion");
+    Then("response code is ([0-9]+)", (Integer code) -> {
+      assertThat(response.code()).isEqualTo(code);
+    });
 
-      assertThat(response.code()).isEqualTo(200);
+    Then("response body is \"([^\\\"]*)\"", (String text) -> {
       try {
-        assertThat(response.body().string()).isEqualToIgnoringCase("Hello again!");
+        assertThat(response.body().string()).isEqualToIgnoringCase(text);
       } catch (IOException e) {
         fail("Cannot read response body", e);
       }

@@ -9,25 +9,32 @@ package spring.cucumber.demo.steps;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import cucumber.api.java8.En;
 import spring.cucumber.demo.TwitterApp;
+import spring.cucumber.demo.twitter.HelloController;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = TwitterApp.class)
-public class FooSteps implements En {
-  private static final Logger LOGGER = LoggerFactory.getLogger(FooSteps.class);
+public class AppSteps implements En {
+  private static final Logger LOGGER = LoggerFactory.getLogger(AppSteps.class);
 
-  public FooSteps() {
+  @Autowired
+  HelloController helloController;
 
-    Given("step1", () -> {
-      LOGGER.info("Step #1 ... some precondition");
+  public AppSteps() {
+
+    Given("welcome message is \"([^\\\"]*)", (String msg) -> {
+      helloController.welcomeMessage = msg;
     });
 
-    Given("step2", () -> {
-      LOGGER.info("Step #2 ... some other precondition");
+    Then("controller was not null", () -> {
+      assertThat(helloController).isNotNull();
     });
   }
 }
