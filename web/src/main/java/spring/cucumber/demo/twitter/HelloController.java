@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HelloController {
 
-  public String welcomeMessage = "Hello world!";
+  public String welcomeMessage = "Hello again!";
 
   @RequestMapping("hello")
   @ResponseBody
