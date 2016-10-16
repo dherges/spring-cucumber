@@ -7,8 +7,6 @@
  */
 package spring.cucumber.demo.steps;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = TwitterApp.class)
 public class AppSteps implements En {
-  private static final Logger LOGGER = LoggerFactory.getLogger(AppSteps.class);
 
   @Autowired
   HelloController helloController;
